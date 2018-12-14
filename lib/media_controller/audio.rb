@@ -1,9 +1,6 @@
 module MediaController
 
-  class Audio < MediaController::Media
-    def self.hi
-      "Audio"
-    end
+  class Audio < Media
   end
 
 end
