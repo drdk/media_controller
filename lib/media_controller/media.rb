@@ -60,6 +60,12 @@ module MediaController
       @page.evaluate_script "#{@ref}.volume;"
     end
 
+    def size
+      width = @page.evaluate_script "#{@ref}.clientWidth;"
+      height = @page.evaluate_script "#{@ref}.clientHeight;"
+      {width: width, height: height}
+    end
+
     def event_count(event_name)
       @page.evaluate_script "window['media-#{@id}-#{event_name}-count'];"
     end

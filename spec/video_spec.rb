@@ -127,6 +127,14 @@ describe MediaController::Video do
       end
     end
 
+    describe "#size" do
+      it "returns the width and height" do
+        allow(page).to receive(:evaluate_script).with("window['media-my-id'].clientWidth;").and_return(1130)
+        allow(page).to receive(:evaluate_script).with("window['media-my-id'].clientHeight;").and_return(636)
+        expect(video.size).to eq({width: 1130, height: 636})
+      end
+    end
+
     describe "#event_count" do
       it "reports the number of times an event has occurred" do
         allow(page).to receive(:evaluate_script).with("window['media-my-id-timeupdate-count'];").and_return(10)

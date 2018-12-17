@@ -127,6 +127,14 @@ describe MediaController::Audio do
       end
     end
 
+    describe "#size" do
+      it "returns the width and height" do
+        allow(page).to receive(:evaluate_script).with("window['media-my-id'].clientWidth;").and_return(930)
+        allow(page).to receive(:evaluate_script).with("window['media-my-id'].clientHeight;").and_return(60)
+        expect(audio.size).to eq({width: 930, height: 60})
+      end
+    end
+
     describe "#event_count" do
       it "reports the number of times an event has occurred" do
         allow(page).to receive(:evaluate_script).with("window['media-my-id-timeupdate-count'];").and_return(10)
