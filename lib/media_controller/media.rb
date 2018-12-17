@@ -32,22 +32,6 @@ module MediaController
       @page.evaluate_script "#{@ref}.duration;"
     end
 
-    def event_count(event_name)
-      @page.evaluate_script "window['media-#{@id}-#{event_name}-count'];"
-    end
-
-    def add_event_listener(event_name)
-      @page.execute_script "window['media-#{@id}-#{event_name}-count'] = 0;"
-      @page.execute_script "window['media-#{@id}-#{event_name}-count-function'] = function() { window['media-#{@id}-#{event_name}-count'] += 1; };"
-      @page.execute_script "#{@ref}.addEventListener('#{event_name}', window['media-#{@id}-#{event_name}-count-function']);"
-    end
-
-    def remove_event_listener(event_name)
-      @page.execute_script "#{@ref}.removeEventListener('#{event_name}', window['media-#{@id}-#{event_name}-count-function']);"
-      @page.execute_script "window['media-#{@id}-#{event_name}-count-function'] = null;"
-      @page.execute_script "window['media-#{@id}-#{event_name}-count'] = null;"
-    end
-
     def playing?
       add_event_listener('timeupdate')
       sleep 3
@@ -74,6 +58,22 @@ module MediaController
 
     def volume
       @page.evaluate_script "#{@ref}.volume;"
+    end
+
+    def event_count(event_name)
+      @page.evaluate_script "window['media-#{@id}-#{event_name}-count'];"
+    end
+
+    def add_event_listener(event_name)
+      @page.execute_script "window['media-#{@id}-#{event_name}-count'] = 0;"
+      @page.execute_script "window['media-#{@id}-#{event_name}-count-function'] = function() { window['media-#{@id}-#{event_name}-count'] += 1; };"
+      @page.execute_script "#{@ref}.addEventListener('#{event_name}', window['media-#{@id}-#{event_name}-count-function']);"
+    end
+
+    def remove_event_listener(event_name)
+      @page.execute_script "#{@ref}.removeEventListener('#{event_name}', window['media-#{@id}-#{event_name}-count-function']);"
+      @page.execute_script "window['media-#{@id}-#{event_name}-count-function'] = null;"
+      @page.execute_script "window['media-#{@id}-#{event_name}-count'] = null;"
     end
   end
 
