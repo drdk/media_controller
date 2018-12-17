@@ -55,6 +55,22 @@ module MediaController
       remove_event_listener('timeupdate')
       return playing
     end
+
+    def mute!
+      @page.execute_script "#{@ref}.muted = true;"
+    end
+
+    def muted?
+      @page.evaluate_script "#{@ref}.muted;"
+    end
+
+    def volume=(new_volume)
+      @page.execute_script "#{@ref}.volume = #{new_volume};"
+    end
+
+    def volume
+      @page.evaluate_script "#{@ref}.volume;"
+    end
   end
 
 end

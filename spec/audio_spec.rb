@@ -152,4 +152,49 @@ describe MediaController::Audio do
       expect(audio.playing?).to be false
     end
   end
+
+  describe "#mute!" do
+    let(:page)  { double('page', execute_script: nil) }
+    let(:audio) { MediaController::Audio.new(page, id: 'my-id') }
+
+    it "mutes the audio" do
+      expect(page).to receive(:execute_script).with("window['media-my-id'].muted = true;")
+      audio.mute!
+    end
+  end
+
+  describe "#muted?" do
+    let(:page)  { double('page', execute_script: nil) }
+    let(:audio) { MediaController::Audio.new(page, id: 'my-id') }
+
+    it "returns true the audio is muted" do
+      allow(page).to receive(:evaluate_script).with("window['media-my-id'].muted;").and_return(true)
+      expect(audio.muted?).to be true
+    end
+
+    it "returns false when the audio is not muted" do
+      allow(page).to receive(:evaluate_script).with("window['media-my-id'].muted;").and_return(false)
+      expect(audio.muted?).to be false
+    end
+  end
+
+  describe "#volume=" do
+    let(:page)  { double('page', execute_script: nil) }
+    let(:audio) { MediaController::Audio.new(page, id: 'my-id') }
+
+    it "sets the volume to the value specified" do
+      expect(page).to receive(:execute_script).with("window['media-my-id'].volume = 0.6;")
+      audio.volume = 0.6
+    end
+  end
+
+  describe "#volume" do
+    let(:page)  { double('page', execute_script: nil) }
+    let(:audio) { MediaController::Audio.new(page, id: 'my-id') }
+
+    it "returns the current volume" do
+      allow(page).to receive(:evaluate_script).with("window['media-my-id'].volume;").and_return(0.3)
+      expect(audio.volume).to eq 0.3
+    end
+  end
 end
