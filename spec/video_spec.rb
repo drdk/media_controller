@@ -163,6 +163,16 @@ describe MediaController::Video do
     end
   end
 
+  describe "#unmute!" do
+    let(:page)  { double('page', execute_script: nil) }
+    let(:video) { MediaController::Video.new(page, id: 'my-id') }
+
+    it "unmutes the video" do
+      expect(page).to receive(:execute_script).with("window['media-my-id'].muted = false;")
+      video.unmute!
+    end
+  end
+
   describe "#muted?" do
     let(:page)  { double('page', execute_script: nil) }
     let(:video) { MediaController::Video.new(page, id: 'my-id') }

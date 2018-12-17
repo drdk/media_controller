@@ -60,6 +60,10 @@ module MediaController
       @page.execute_script "#{@ref}.muted = true;"
     end
 
+    def unmute!
+      @page.execute_script "#{@ref}.muted = false;"
+    end
+
     def muted?
       @page.evaluate_script "#{@ref}.muted;"
     end
