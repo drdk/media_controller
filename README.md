@@ -2,7 +2,21 @@
 
 Allows controlling HTML5 video and audio players from Ruby. This means you can test media in browsers using Selenium Webdriver, Capybara and RSpec, using a tidy Ruby DSL.
 
-## Examples
+## Setup
+
+Either install the gem directly:
+
+    gem install media_controller
+
+Or use Bundler:
+
+    gem 'media_controller'
+
+Require the gem:
+
+    require 'media_controller'
+
+## Usage examples
 
 ### Initialization
 
