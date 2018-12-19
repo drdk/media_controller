@@ -54,64 +54,54 @@ Here we set up a listener for the `'ended'` event, seek to 1 second before the e
 
 ## Methods implemented
 
-### `new`
+### `new(page, options)`
 `MediaController::Video.new(page, options)` or `MediaController::Audio.new(page, options)`
 
-Currently, options should include an ID of the video or audio element on the page
+Returns a video/audio instance that you can control the media on the page.
+
+Currently, `options` should include an ID of the video or audio element on the page.
 
 ### `play`
-Starts playing the audio/video
+Starts playing the audio/video.
 
 ### `pause`
-Pauses the currently playing audio/video
+Pauses the currently playing audio/video.
 
-### `seek_to`
-`seek_to(int)`
-
-Seeks to a number of seconds into the audio/video
+### `seek_to(int)`
+Seeks to a number of seconds into the audio/video.
 
 ### `current_time`
-Returns the current playback position (in seconds) in the audio/video
+Returns the current playback position (in seconds) in the audio/video.
 
 ### `duration`
-Returns the length (in seconds) of the audio/video
+Returns the length (in seconds) of the audio/video.
 
 ### `playing?`
-Returns whether the audio/video is playing or not
+Returns whether the audio/video is playing or not.
 
 ### `mute!`
-Mutes the audio/video
+Mutes the audio/video.
 
 ### `unmute!`
-Unmutes the audio/video
+Unmutes the audio/video.
 
 ### `muted?`
-Returns whether the audio/video is muted or not
+Returns whether the audio/video is muted or not.
 
-### `volume=`
-`volume=(float)`
-
-Sets the volume of the audio/video
+### `volume=(float)`
+Sets the volume of the audio/video.
 
 ### `volume`
-Returns the volume of the audio/video as a float between 0 and 1
+Returns the volume of the audio/video as a float between 0 and 1.
 
 ### `size`
-Returns the width and height of the audio/video
+Returns a Hash countaining the width and height of the audio/video.
 
-### `add_event_listener`
-`add_event_listener(string)`
+### `add_event_listener(string)`
+Listens for an event and sets up an event count.
 
-Listens for an event and sets up an event count
+### `remove_event_listener(string)`
+Removes a previously added event listener and removes the event count.
 
-### `remove_event_listener`
-
-`remove_event_listener(string)`
-
-Removes a previously added event listener and clears the event count
-
-### `event_count`
-
-`event_count(string)`
-
-Reports the number of times that an listened-for event has occurred
+### `event_count(string)`
+Reports the number of times that an listened-for event has occurred.
