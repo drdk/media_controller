@@ -2,16 +2,19 @@ describe MediaController::Video do
   let(:page) { double('page', execute_script: nil) }
 
   describe "#new" do
-    it "works with an ID" do
-      expect(page).to receive(:execute_script).with("window['media-my-id'] = document.getElementById('my-id')")
-      MediaController::Video.new(page, id: 'my-id')
-    end
 
-    it "does not work without an ID" do
+    it "does not work without an ID or a reference" do
       expect {
         require 'media_controller'
         MediaController::Video.new(page, {})
-      }.to raise_error(RuntimeError, "Please supply an ID")
+      }.to raise_error(RuntimeError, "Please supply an ID or a reference")
+    end
+
+    it "does not work with a blank ID" do
+      expect {
+        require 'media_controller'
+        MediaController::Video.new(page, {id: ""})
+      }.to raise_error(RuntimeError, "Please supply a valid ID")
     end
 
     it "remembers the page reference" do
@@ -19,9 +22,37 @@ describe MediaController::Video do
       expect(video.page).to eq(page)
     end
 
-    it "stores the id" do
-      video = MediaController::Video.new(page, id: 'my-id')
-      expect(video.id).to eq('my-id')
+    context('finding by reference') do
+      let(:reference) { double('reference', path: "/HTML/BODY[1]/DIV[8]/VIDEO[1]") }
+
+      it "finds the player" do
+        allow(MediaController::Media).to receive(:random_id).and_return('68866')
+        expect(page).to receive(:execute_script).with("window['media-68866'] = document.evaluate('/HTML/BODY[1]/DIV[8]/VIDEO[1]', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue")
+        MediaController::Video.new(page, reference: reference)
+      end
+
+      it "finds the player reference" do
+        expect(reference).to receive(:path)
+        video = MediaController::Video.new(page, reference: reference)
+      end
+
+      it "makes up an ID and stores it" do
+        expect(MediaController::Media).to receive(:random_id).and_return('45987')
+        video = MediaController::Video.new(page, reference: reference)
+        expect(video.id).to eq '45987'
+      end
+    end
+
+    context('finding by ID') do
+      it "finds the player" do
+        expect(page).to receive(:execute_script).with("window['media-my-id'] = document.getElementById('my-id')")
+        MediaController::Video.new(page, id: 'my-id')
+      end
+
+      it "stores the id" do
+        video = MediaController::Video.new(page, id: 'my-id')
+        expect(video.id).to eq('my-id')
+      end
     end
   end
 

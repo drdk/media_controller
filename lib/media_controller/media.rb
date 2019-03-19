@@ -4,12 +4,24 @@ module MediaController
 
     attr :page, :id
 
+    def Media.random_id
+      rand(10000..99999)
+    end
+
     def initialize(capybara_page, options)
-      raise "Please supply an ID" unless options[:id]
-      @id = options[:id]
+      raise "Please supply an ID or a reference" unless options[:id] or options[:reference]
+      raise "Please supply a valid ID" if options[:id] == ""
       @page = capybara_page
-      @ref = "window['media-#{@id}']"
-      @page.execute_script("#{@ref} = document.getElementById('#{@id}')")
+
+      if options[:id]
+        @id = options[:id]
+        @ref = "window['media-#{@id}']"
+        @page.execute_script("#{@ref} = document.getElementById('#{@id}')")
+      elsif options[:reference]
+        @id = Media.random_id
+        @ref = "window['media-#{@id}']"
+        @page.execute_script("#{@ref} = document.evaluate('#{options[:reference].path}', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue")
+      end
     end
 
     def play
