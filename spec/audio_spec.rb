@@ -3,13 +3,6 @@ describe MediaController::Audio do
 
   describe "#new" do
 
-    it "does not work without an ID or a reference" do
-      expect {
-        require 'media_controller'
-        MediaController::Audio.new(page, {})
-      }.to raise_error(RuntimeError, "Please supply an ID or a reference")
-    end
-
     it "does not work with a blank ID" do
       expect {
         require 'media_controller'
@@ -52,6 +45,20 @@ describe MediaController::Audio do
       it "stores the id" do
         audio = MediaController::Audio.new(page, id: 'my-id')
         expect(audio.id).to eq('my-id')
+      end
+    end
+
+    context('finding without id or reference') do
+      it "finds the player" do
+        allow(MediaController::Media).to receive(:random_id).and_return('98248')
+        expect(page).to receive(:execute_script).with("window['media-98248'] = document.getElementsByTagName('audio')[0]")
+        MediaController::Audio.new(page)
+      end
+
+      it "makes up an ID and stores it" do
+        expect(MediaController::Media).to receive(:random_id).and_return('08673')
+        audio = MediaController::Audio.new(page)
+        expect(audio.id).to eq '08673'
       end
     end
   end
