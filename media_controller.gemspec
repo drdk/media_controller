@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'media_controller'
-  s.version     = '1.1.1'
+  s.version     = '1.1.2'
   s.summary     = "Media Cotroller"
   s.description = "Allows controlling HTML5 video and audio players from Ruby"
   s.authors     = ["Aimee Rivers"]
