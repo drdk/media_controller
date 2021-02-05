@@ -122,3 +122,19 @@ Removes a previously added event listener and removes the event count.
 
 ### `event_count(string)`
 Reports the number of times that an listened-for event has occurred.
+
+## Run media_controller tests
+
+    rake spec
+
+## Build a new version of media_controller gem
+
+Update media_controller.gemspec with new version (eg 1.1.2)
+
+Build a new version of the gem
+
+    gem build media_controller.gemspec
+
+Push that version to RubyGems
+
+    gem push media_controller-1.1.2.gem
