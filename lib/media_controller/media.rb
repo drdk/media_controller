@@ -27,6 +27,10 @@ module MediaController
       end
     end
 
+    def current_src
+      @page.evaluate_script "#{@ref}.currentSrc;"
+    end
+
     def play
       @page.execute_script "#{@ref}.play();"
     end

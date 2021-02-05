@@ -66,6 +66,13 @@ describe MediaController::Audio do
   context "after initialization" do
     let(:audio) { MediaController::Audio.new(page, id: 'my-id') }
 
+    describe "#current_src" do
+      it "reports the current src" do
+        allow(page).to receive(:evaluate_script).with("window['media-my-id'].currentSrc;").and_return('blob:example')
+        expect(audio.current_src).to eq 'blob:example'
+      end
+    end
+
     describe "#play" do
       it "plays audio" do
         expect(page).to receive(:execute_script).with("window['media-my-id'].play();")

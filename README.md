@@ -75,6 +75,9 @@ Returns a video/audio instance that you can control the media on the page.
 
 Currently, `options` should include an ID of the video or audio element on the page.
 
+### `current_src`
+Returns the current source for the audio/video.
+
 ### `play`
 Starts playing the audio/video.
 
